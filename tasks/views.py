@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
@@ -8,8 +9,21 @@ def index(request):
 
 def signup(request):
 
-  print(request.POST)
-  return render(request, 'signup.html', {
+  if request.method == 'GET':
+     
+    return render(request, 'signup.html', {
     'form':UserCreationForm
-  })
+    })
+  elif request.method =='POST':
+    if request.POST['password1'] == request.POST['password2']:
+      #register user
+      try:
+        create_user = User.objects.create_user(username = request.POST['username'], password = request.POST['password1'])
+        create_user.save()
+        return HttpResponse('<h1>User created successfully</h1>')
+      except:
+        return HttpResponse('something has gone wrong... :(')
+    else:
+      return HttpResponse('<h1>Password incorrect</h1>')
 
+  
