@@ -23,7 +23,7 @@ def signup(request):
             try:
                 create_user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
                 create_user.save()
-                login(request, create_user)
+                login(request, create_user) #Agregar sesion id  
                 return redirect('tasks')
             except:
                 return render(request, 'signup.html',
