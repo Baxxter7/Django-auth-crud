@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.utils import timezone #Para importar la hora
+
 from .forms import TaskForm
 from .models import Task
 
@@ -42,8 +44,7 @@ def signup(request):
 
 def tasks(request):
     #datecomplated__isnull es para mostrar solo las que faltan por completar
-    #tasks = Task.objects.filter(user = request.user, datecompleted__isnull = True)
-    tasks = Task.objects.filter(user = request.user)
+    tasks = Task.objects.filter(user = request.user, datecompleted__isnull = True)
     return render(request, 'tasks.html',{
         'tasks': tasks
     })
@@ -89,6 +90,20 @@ def create_task(request):
             'error': 'Please, provide valida data'
             })
             # create_task = Task()
+
+
+def task_complete(request, task_id):
+    task = get_object_or_404(Task, id = task_id, user = request.user)
+    if request.method == "POST":
+        task.datecompleted = timezone.now()
+        task.save()
+        return redirect('tasks')
+
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id = task_id, user = request.user)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('tasks')
 
 
 def signout(request):
