@@ -49,10 +49,27 @@ def tasks(request):
     })
 
 def task_detail(request, task_id):
-    get_task = get_object_or_404(Task, id = task_id)
-    return render(request, 'task_detail.html', {
-        'task': get_task
-    })
+    if request.method == "GET":
+        #Esta consulta valida que solo podamos visualizar las del usuario logeado
+        get_task = get_object_or_404(Task, id = task_id, user = request.user)
+        form =TaskForm(instance=get_task)
+        return render(request, 'task_detail.html', {
+            'task': get_task, 
+            'form': form
+        })
+    else:
+        try:
+            task = get_object_or_404(Task, id = task_id, user = request.user)
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+            return redirect('tasks')
+        except:
+
+            return render(request, 'task_detail.html', {
+                'form': form,
+                'error': 'Error Upating task'
+            })
+        
 
 def create_task(request):
     if request.method == "GET":
