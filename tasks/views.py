@@ -49,6 +49,12 @@ def tasks(request):
         'tasks': tasks
     })
 
+def tasks_completed(request):
+    tasks = Task.objects.filter(user = request.user, datecompleted__isnull = False).order_by('-datecompleted')
+    return render(request, 'tasks_completed.html', {
+        'tasks': tasks
+    })
+
 def task_detail(request, task_id):
     if request.method == "GET":
         #Esta consulta valida que solo podamos visualizar las del usuario logeado
@@ -108,7 +114,7 @@ def delete_task(request, task_id):
 
 def signout(request):
     logout(request)
-    return redirect('index  ')
+    return redirect('index')
 
 
 def signin(request):

@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+<h1>Tasks completed</h1>
+
+{% for task in tasks %}
+  <ul>
+    <li>
+      <a href="">
+        <h4>{{task.title}}</h4>
+        <p>{{task.datecompleted|date:'M j Y:i'}}</p>
+      </a>
+    </li>
+  </ul>
+{% endfor %}
+{% endblock %}
