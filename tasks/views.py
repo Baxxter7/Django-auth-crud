@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from .forms import TaskForm
+from .models import Task
 
 # Create your views here.
 
@@ -40,7 +41,12 @@ def signup(request):
 
 
 def tasks(request):
-    return render(request, 'tasks.html')
+    #datecomplated__isnull es para mostrar solo las que faltan por completar
+    #tasks = Task.objects.filter(user = request.user, datecompleted__isnull = True)
+    tasks = Task.objects.filter(user = request.user)
+    return render(request, 'tasks.html',{
+        'tasks': tasks
+    })
 
 
 def create_task(request):
