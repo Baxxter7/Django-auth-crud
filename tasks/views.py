@@ -42,17 +42,25 @@ def signup(request):
 def tasks(request):
     return render(request, 'tasks.html')
 
+
 def create_task(request):
     if request.method == "GET":
         return render(request, 'create_task.html', {
             'form': TaskForm
         })
     else:
-        print(request.POST)
-        return render(request, 'create_task.html', {
-            'form': TaskForm
-        })
-        #create_task = Task()
+        try:
+            form = TaskForm(request.POST)
+            new_task = form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect('tasks')
+        except:
+            return render(request, 'create_task.html', {
+            'form': TaskForm,
+            'error': 'Please, provide valida data'
+            })
+            # create_task = Task()
 
 
 def signout(request):
