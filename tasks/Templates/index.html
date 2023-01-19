@@ -2,6 +2,16 @@
 
 {% block content %} 
 
-  <h1>This is index.html</h1>
+<main class="container py-5">
+  <section class="card card-body">
+    <h1 class="display-1 text-center">Django App</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident eligendi et aperiam, nam qui nemo enim officia at modi voluptatum corrupti perferendis nostrum molestiae obcaecati repudiandae ab assumenda rem, magni exercitationem quos placeat maiores? Architecto deleniti commodi amet, nesciunt esse inventore ullam fuga eius, nemo tempore illo quos? Numquam deleniti ipsa cupiditate porro deserunt ipsam perspiciatis suscipit asperiores sapiente quas nulla omnis, libero possimus dolorum illum consequuntur enim accusantium explicabo cum voluptatibus provident? A, autem excepturi? Ex voluptas natus veritatis omnis asperiores labore modi sint ducimus delectus sit veniam voluptate accusamus, perferendis corporis quia minima doloremque expedita aliquid inventore facilis!</p>
 
+
+    <div class="text-center">
+      <a class="btn btn-info" href="{% url 'login' %}">Login</a>
+      <a class="btn btn-secondary" href="{% url 'signup' %}">Signup</a>
+    </div>
+  </section>
+</main>
 {% endblock %}

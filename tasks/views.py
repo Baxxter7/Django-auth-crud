@@ -100,7 +100,7 @@ def create_task(request):
             })
             # create_task = Task()
 
-
+@login_required
 def task_complete(request, task_id):
     task = get_object_or_404(Task, id = task_id, user = request.user)
     if request.method == "POST":
